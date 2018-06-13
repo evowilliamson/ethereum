@@ -1,0 +1,8 @@
+Splitter.deployed().then(instance => instance.addBeneficiary("ivo",{ from: account1 })).then(_txObj => txObj = _txObj).catch(console.error);
+
+Splitter.deployed().then(instance => instance.sendTransaction({from: account0, value: 100000000}))..then(_txObj => txObj = _txObj).catch(console.error);
+
+Splitter.deployed().then(instance => instance.getBalance()).then(newResult => result = newResult).catch(console.error);
+BigNumber { s: 1, e: 0, c: [ 1 ] }
+
+Splitter.deployed().then(instance => instance.withdraw({ from: account1 })).then(_txObj => txObj = _txObj).catch(console.error);
