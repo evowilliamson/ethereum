@@ -3,10 +3,12 @@ pragma solidity ^0.4.24;
 
 /*
 Splitter Contract. Anybody can send ether to the contract. Beneficiaries can
-be added on-the-fly. At the moment that a beneficiary decides to withdraw, 
+flexibly be added on-the-fly. At the moment that a beneficiary decides to withdraw, 
 he/she will receive 1/nth of the total amount of ether available in the 
 contract, where n being the number of beneficiaries. After that the beneficiary
-has withdrawn the ether, he/she will be removed from the list of beneficiaries.
+has withdrawn the ether, he/she will be removed from the list of beneficiaries. After
+all money has been withdrawn from the contract, the contract can be reused again by 
+somebody sending money to it again.
 */
 contract Splitter {
 
