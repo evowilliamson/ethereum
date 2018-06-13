@@ -93,12 +93,12 @@ contract Splitter {
     }
 
     /**
-     * Function that a donater will call to send money to be splitted
+     * Fallback function that a donater will call to send money to be splitted
      * over the available beneficiaries. Money can be sent at any time, before
      * or after beneficiaries have been added. More people can send money to 
      * the contract at any time
      **/
-    function send() public payable {
+    function() public payable {
     }
     
     /**
