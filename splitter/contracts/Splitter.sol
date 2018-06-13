@@ -2,32 +2,31 @@ pragma solidity ^0.4.24;
 
 
 /*
-Splitter Contract. Anybody can send money to the contract. The money 
-that is sent to the contract is split over the available beneficiary. 
-Beneficiary can be added on-the-fly. In order for anybody to send money, at 
-least one beneficiary should exist. 
+Splitter Contract. Anybody can send ether to the contract. Beneficiaries can
+be added on-the-fly. At the moment that a beneficiary decides to withdraw, 
+he/she will receive 1/nth of the total amount of ether available in the 
+contract, where n being the number of beneficiaries. After that the beneficiary
+has withdrawn the ether, he/she will be removed from the list of beneficiaries.
 */
 contract Splitter {
 
     /**
      * Type definitition of a Beneficiary, an entity that is the recipient of
-     * 1/nth part of the value of a splitter contract. After a beneficiary adds him/herself
-     * to this contract, he/she can later send money and be a Beneficiary 
-     * him/herself.
+     * 1/nth part of the value of a splitter contract
      */
     struct Beneficiary {
         address id;
         string name;
-        uint amount;
     }
 
+    /** Maintain a list of beneficiaries. A mapping would probably not be 
+     * sufficient, as after a beneficiary has withdrawn ether from a contract
+     * (and thus removed from the list of beneficiaries), he/she could decide
+     * to register him/herself again to the still existing contract. With a
+     * mapping you would probably have to implement a soft-delete. Of course
+     * an array is more costly than using a mapping.
+     **/
     Beneficiary[] beneficiaries;
-    /**
-     * When the number of beneficiaries is big, we might need to consider
-     * using a mapping, as looping over de available beneficiaries by checking
-     * whether a beneficiary already exists might be costly. A mapping would
-     * be cheaper in that regard.
-     ** /
     
     constructor() public {
     }
@@ -37,27 +36,13 @@ contract Splitter {
      * If the beneficiary is already present in the list, then the
      * transaction will be reverted 
      **/
-    function addBeneficiary(address id, string name) public {
-        if (isAlreadyBeneficiary(id)) {
+    function addBeneficiary(string name) public {
+        if (isPresent(msg.sender)) {
             revert("Already Beneficiary");
         }
-        beneficiaries.push(Beneficiary(id, name, 0));
+        beneficiaries.push(Beneficiary(msg.sender, name));
     }
     
-    /**
-     * This function calculates the total amount of money of all 
-     * beneficiaries
-     **/
-    function getTotalBalance() public view returns (uint totalBalance) {
-        
-        uint tempBalance = 0;
-        for (uint i = 0; i < beneficiaries.length; i++) {
-            tempBalance += beneficiaries[i].amount;
-        }
-        return tempBalance;
-        
-    }
-
     /**
      * This function returns the names of all the beneficiaries seperated
      * by a comma
@@ -76,50 +61,95 @@ contract Splitter {
     }
 
     /**
+     * Function that removes beneficiary by the index
+     **/
+    function removeBenificiaryByIndex(uint index) private {
+        if (index >= beneficiaries.length) return;
+
+        for (uint i = index; i < beneficiaries.length - 1; i++){
+            beneficiaries[i] = beneficiaries[i + 1];
+        }
+        delete beneficiaries[beneficiaries.length - 1];
+        beneficiaries.length--;
+    }
+
+    /**
      * This function returns a tuple of three arrays that represent
      * the addresses, the names and the amounts of the beneficiaries
      **/
-    function getBeneficiaryInfo() public view returns (address[], bytes32[], uint[]) {
+    function getBeneficiaryInfo() public view returns (address[], bytes32[]) {
 
-        uint[] memory amounts = new uint[](beneficiaries.length);        
         bytes32[] memory names = new bytes32[](beneficiaries.length);        
         address[] memory addresses = new address[](beneficiaries.length);
         for (uint i = 0; i < beneficiaries.length; i++) {
             names[i] = stringToBytes32(beneficiaries[i].name);
-            amounts[i] = beneficiaries[i].amount;
             addresses[i] = beneficiaries[i].id;
         }
         
-        return (addresses, names, amounts);
+        return (addresses, names);
 
     }
 
-    function split() public payable {
-        assert(msg.value > 0);
-        uint amountPerBeneficiary = msg.value / beneficiaries.length;
-        for (uint i = 0; i < beneficiaries.length; i++) {
-            beneficiaries[i].amount += amountPerBeneficiary;
-        }
-        
-    }
-
-    function isAlreadyBeneficiary(address id) private view returns (bool) {
     /**
-     * This private function checks to see whether a beneficiary already 
-     * exists
+     * Function that a donater will call to send money to be splitted
+     * over the available beneficiaries. Money can be sent at any time, before
+     * or after beneficiaries have been added. More people can send money to 
+     * the contract at any time
      **/
-        for (uint i = 0; i < beneficiaries.length; i++) {
+    function send() public payable {
+    }
+    
+    /**
+     * This function, called by a beneficiary, will withdraw the money
+     * from the balance
+     **/
+    function withdraw() public payable {
+        uint8 index = getIndex(msg.sender);
+        if (index == uint8(-1)) {
+            revert("Not a beneficiary");
+        }
+        // Remove the beneficiary before the transfer is done!
+        uint8 numberOfBeneficiaries = uint8(beneficiaries.length);
+        removeBenificiaryByIndex(index);
+        msg.sender.transfer(address(this).balance / numberOfBeneficiaries);
+
+    }
+
+    /**
+     * This private function retrieves the index of the beneficiary that
+     * is present in the list of beneficiaries. If not present, return -1
+     **/
+    function getIndex(address id) private view returns (uint8) {
+        for (uint8 i = 0; i < beneficiaries.length; i++) {
             if (beneficiaries[i].id == id) {
-                return true;
+                return i;
             }
         }
-        return false;
+        return uint8(-1);
+    }
+
+    /**
+     * This private function checks to see whether a beneficiary exists
+     **/
+    function isPresent(address id) private view returns (bool) {
+        uint8 index = getIndex(id);
+        if (index == uint8(-1)) {
+            return false;
+        }
+        return true;
+    }
+
+    /** Although not needed, handy for testing in Remix
+     **/
+    function getBalance() public view returns (uint balance) {
+        return address(this).balance;
+        
     }
     
     /**
      * This function concatenates two strings 
      **/
-    function strConcat(string _a, string _b) internal pure returns (string) {
+    function strConcat(string _a, string _b) private  pure returns (string) {
         bytes memory _ba = bytes(_a);
         bytes memory _bb = bytes(_b);
         string memory string_concat = new string(_ba.length + _bb.length);
@@ -133,7 +163,7 @@ contract Splitter {
     /**
      * Function that converts a string to a bytes32 data type 
      **/
-    function stringToBytes32(string memory source) internal pure returns (bytes32 result) {
+    function stringToBytes32(string memory source) private pure returns (bytes32 result) {
         bytes memory tempEmptyStringTest = bytes(source);
         if (tempEmptyStringTest.length == 0) {
             return 0x0;
