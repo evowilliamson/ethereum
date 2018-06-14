@@ -12,6 +12,11 @@ somebody sending money to it again.
 contract Splitter {
 
     /**
+     * Only the owner can add new beneficiaries
+     **/
+    address owner;
+    
+    /**
      * Type definitition of a Beneficiary, an entity that is the recipient of
      * 1/nth part of the value of a splitter contract
      */
@@ -30,18 +35,22 @@ contract Splitter {
     Beneficiary[] beneficiaries;
     
     constructor() public {
+        owner = msg.sender;
     }
 
     /**
      * This function will add a beneficiary to the array of beneficiaries. 
      * If the beneficiary is already present in the list, then the
-     * transaction will be reverted 
+     * transaction will be reverted. Only the owner can add new beneficiaries.
      **/
-    function addBeneficiary(string name) public {
-        if (isPresent(msg.sender)) {
-            revert("Already Beneficiary");
+    function addBeneficiary(address beneficiary, string name) public {
+        if (msg.sender != owner) {
+            revert("Only owner can add beneficiaries");
         }
-        beneficiaries.push(Beneficiary(msg.sender, name));
+        if (isPresent(beneficiary)) {
+            revert("Beneficiary already exists");
+        }
+        beneficiaries.push(Beneficiary(beneficiary, name));
     }
     
     /**
@@ -119,7 +128,7 @@ contract Splitter {
         uint toBeTransferred = address(this).balance / numberOfBenefiaries;
         if (toBeTransferred == 0)
             revert("No funds available");
-        msg.sender.transfer(toBeTransferred);
+       msg.sender.transfer(toBeTransferred);
 
     }
 
