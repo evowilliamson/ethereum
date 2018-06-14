@@ -1,6 +1,5 @@
 pragma solidity ^0.4.24;
 
-
 /*
 Splitter Contract. Anybody can send ether to the contract. Beneficiaries can
 flexibly be added on-the-fly. At the moment that a beneficiary decides to withdraw, 
@@ -96,7 +95,8 @@ contract Splitter {
      * Fallback function that a donater will call to send money to be splitted
      * over the available beneficiaries. Money can be sent at any time, before
      * or after beneficiaries have been added. More people can send money to 
-     * the contract at any time
+     * the contract at any time. There is no further logic in this method
+     * in order to not exceed the stipend gas limit.
      **/
     function() public payable {
     }
@@ -107,13 +107,19 @@ contract Splitter {
      **/
     function withdraw() public payable {
         uint8 index = getIndex(msg.sender);
+        uint8 numberOfBenefiaries = uint8(beneficiaries.length);
         if (index == uint8(-1)) {
-            revert("Not a beneficiary");
+            revert("Not a beneficiary or no beneficiaries");
         }
         // Remove the beneficiary before the transfer is done!
-        uint8 numberOfBeneficiaries = uint8(beneficiaries.length);
         removeBenificiaryByIndex(index);
-        msg.sender.transfer(address(this).balance / numberOfBeneficiaries);
+        /** Note that numberOfBenefiaries cannot be 0 here, so div is ok probably.
+         * Of course a beneficiary might do two withdraw at the same time...
+         **/
+        uint toBeTransferred = address(this).balance / numberOfBenefiaries;
+        if (toBeTransferred == 0)
+            revert("No funds available");
+        msg.sender.transfer(toBeTransferred);
 
     }
 
@@ -147,18 +153,18 @@ contract Splitter {
         return address(this).balance;
         
     }
-    
+
     /**
      * This function concatenates two strings 
      **/
-    function strConcat(string _a, string _b) private  pure returns (string) {
-        bytes memory _ba = bytes(_a);
-        bytes memory _bb = bytes(_b);
-        string memory string_concat = new string(_ba.length + _bb.length);
-        bytes memory bytes_concat = bytes(string_concat);
+    function strConcat(string firstString, string secondString) private pure returns (string) {
+        bytes memory firstStringMem = bytes(firstString);
+        bytes memory secondStringMem = bytes(secondString);
+        string memory StringConcat = new string(firstStringMem.length + secondStringMem.length);
+        bytes memory bytes_concat = bytes(StringConcat);
         uint k = 0;
-        for (uint i = 0; i < _ba.length; i++) bytes_concat[k++] = _ba[i];
-        for (i = 0; i < _bb.length; i++) bytes_concat[k++] = _bb[i];
+        for (uint i = 0; i < firstStringMem.length; i++) bytes_concat[k++] = firstStringMem[i];
+        for (i = 0; i < secondStringMem.length; i++) bytes_concat[k++] = secondStringMem[i];
         return string(bytes_concat);
     }    
 
