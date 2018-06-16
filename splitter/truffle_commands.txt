@@ -1,8 +1,13 @@
-Splitter.deployed().then(instance => instance.addBeneficiary("ivo",{ from: account1 })).then(_txObj => txObj = _txObj).catch(console.error);
-
-Splitter.deployed().then(instance => instance.sendTransaction({from: account0, value: 100000000}))..then(_txObj => txObj = _txObj).catch(console.error);
-
+const Promise = require('bluebird');
+Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+Promise.promisifyAll(web3.version, { suffix: "Promise" });
+web3.eth.getAccountsPromise().then(_accounts => accounts = _accounts);
+Splitter.deployed().then(instance => instance.split(accounts[1], accounts[2], {from: accounts[0], value: 100000000})).then(_txObj => txObj = _txObj).catch(console.error);
 Splitter.deployed().then(instance => instance.getBalance()).then(newResult => result = newResult).catch(console.error);
-BigNumber { s: 1, e: 0, c: [ 1 ] }
+Splitter.deployed().then(instance => instance.withdraw(50000000, { from: accounts[1] })).then(_txObj => txObj = _txObj).catch(console.error);
+Splitter.deployed().then(instance => instance.getBalance()).then(newResult => result = newResult).catch(console.error);
+Splitter.deployed().then(instance => instance.withdraw(50000000, { from: accounts[2] })).then(_txObj => txObj = _txObj).catch(console.error);
+Splitter.deployed().then(instance => instance.getBalance()).then(newResult => result = newResult).catch(console.error);
+Splitter.deployed().then(instance => instance.destruct({ from: accounts[0] })).then(newResult => result = newResult).catch(console.error);
 
-Splitter.deployed().then(instance => instance.withdraw({ from: account1 })).then(_txObj => txObj = _txObj).catch(console.error);
+Splitter.deployed().then(instance => instance.getBalance.call().then(newResult => result = newResult).catch(console.error);
