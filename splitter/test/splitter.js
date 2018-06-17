@@ -9,7 +9,8 @@ var tryCatch = require("./exceptions.js").tryCatch;
 var errTypes = require("./exceptions.js").errTypes;
 var gasPrice = 100000000000;
 var totalAmount = 10000000000000000;
-var splitAmount = totalAmount / 2;
+var splitAmount = 4000000000000000
+var leftOverInContract = totalAmount - 2*(splitAmount);
 
 function getGasUsedInWei(txObj) {
   return gasPrice * txObj.receipt.gasUsed;
@@ -69,7 +70,7 @@ contract('Splitter', function(accounts) {
       });
     });
 
-    it("should generate an error when any benifciary tries to withdraw again", function() {
+    it("should generate an error when any benifciary tries to withdraw again with an amount that exceeds the balance in the contract", function() {
       return Splitter.deployed().then(function(instance) {
         tryCatch(instance.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
       });
@@ -84,11 +85,20 @@ contract('Splitter', function(accounts) {
       });
     });
 
+    // At this point, 2000000000000000 is left over in the contract. Upon killing, this amount should be sent to the owner
     it("should allow the destruction of the contract when the owner initiates the action", function() {
       return Splitter.deployed().then(function(instance) {
-        return instance.destruct({ from: accounts[0], gasPrice: gasPrice })
-      }).then(function() {
-        assert.ok(true);
+        splitter = instance;
+        return web3.eth.getBalancePromise(accounts[0]);
+      }).then(function(balance) {
+        balanceBefore = balance.toNumber();
+        return splitter.destruct({ from: accounts[0], gasPrice: gasPrice })
+      }).then(function(_txObj) {
+        txObj = _txObj;
+        return web3.eth.getBalancePromise(accounts[0]);
+      }).then(function(balance) {
+        balanceAfter = balance.toNumber();
+        assert.equal(balanceBefore + leftOverInContract , balanceAfter + getGasUsedInWei(txObj), "Owner didn't get the money left in the contract " + leftOverInContract);
       });
     });
 
