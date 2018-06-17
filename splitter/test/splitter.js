@@ -32,7 +32,9 @@ contract('Splitter', function(accounts) {
 
     it("should generate an error when trying to do a split on the same contract again", function() {
       return Splitter.deployed().then(function(instance) {
-        tryCatch(instance.split(accounts[1], accounts[2], {from: accounts[0], value: totalAmount, gasPrice: gasPrice}), errTypes.revert);
+        tryCatch(instance.split(
+          accounts[1], accounts[2],
+          {from: accounts[0], value: totalAmount, gasPrice: gasPrice}), errTypes.revert);
       });
     });
   });
@@ -50,7 +52,10 @@ contract('Splitter', function(accounts) {
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
         balanceAfter = balance.toNumber();
-        assert.equal(balanceBefore + splitAmount , balanceAfter + getGasUsedInWei(txObj), "Benifciary did not withdraw " + splitAmount);
+        assert.equal(
+          balanceBefore + splitAmount , 
+          balanceAfter + getGasUsedInWei(txObj), 
+          "Benifciary did not withdraw " + splitAmount);
       });
     });
 
@@ -66,11 +71,15 @@ contract('Splitter', function(accounts) {
         return web3.eth.getBalancePromise(accounts[2]);
       }).then(function(balance) {
         balanceAfter = balance.toNumber();
-        assert.equal(balanceBefore + splitAmount , balanceAfter + getGasUsedInWei(txObj), "Benifciary did not withdraw " + splitAmount);
+        assert.equal(
+          balanceBefore + splitAmount , 
+          balanceAfter + getGasUsedInWei(txObj), 
+          "Benifciary did not withdraw " + splitAmount);
       });
     });
 
-    it("should generate an error when any benifciary tries to withdraw again with an amount that exceeds the balance in the contract", function() {
+    it("should generate an error when any benifciary tries to withdraw again with an " + 
+      "amount that exceeds the balance in the contract", function() {
       return Splitter.deployed().then(function(instance) {
         tryCatch(instance.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
       });
@@ -98,7 +107,10 @@ contract('Splitter', function(accounts) {
         return web3.eth.getBalancePromise(accounts[0]);
       }).then(function(balance) {
         balanceAfter = balance.toNumber();
-        assert.equal(balanceBefore + leftOverInContract , balanceAfter + getGasUsedInWei(txObj), "Owner didn't get the money left in the contract " + leftOverInContract);
+        assert.equal(
+          balanceBefore + leftOverInContract , 
+          balanceAfter + getGasUsedInWei(txObj), 
+          "Owner didn't get the money left in the contract " + leftOverInContract);
       });
     });
 
