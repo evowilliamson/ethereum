@@ -7,22 +7,31 @@ web3.eth.getAccountsPromise().then(_accounts => accounts = _accounts);
 
 var tryCatch = require("./exceptions.js").tryCatch;
 var errTypes = require("./exceptions.js").errTypes;
+var gasPrice = 100000000000;
+var totalAmount = 10000000000000000;
+var splitAmount = totalAmount / 2;
+
+function getGasUsedInWei(txObj) {
+  return gasPrice * txObj.receipt.gasUsed;
+}
 
 contract('Splitter', function(accounts) {
 
   describe("Splitting the money", function() {
     it("should put 1000000 wei in the Splitter contract", function() {
       return Splitter.deployed().then(function(instance) {
-        instance.split(accounts[1], accounts[2], {from: accounts[0], value: 200000000000000});
-        return instance.getBalance();
+        splitter = instance;
+        return splitter.split(accounts[1], accounts[2], {from: accounts[0], value: totalAmount, gasPrice: gasPrice});
+      }).then(function() {
+        return splitter.getBalance();
       }).then(function(balance) {
-        assert.equal(balance.valueOf(), 200000000000000, "200000000000000 wasn't in the Splitter contract");
+        assert.equal(balance.toNumber(), totalAmount, totalAmount + " wasn't in the Splitter contract");
       });
     });
 
     it("should generate an error when trying to do a split on the same contract again", function() {
       return Splitter.deployed().then(function(instance) {
-        tryCatch(instance.split(accounts[1], accounts[2], {from: accounts[0], value: 200000000000000}), errTypes.revert);
+        tryCatch(instance.split(accounts[1], accounts[2], {from: accounts[0], value: totalAmount, gasPrice: gasPrice}), errTypes.revert);
       });
     });
   });
@@ -34,37 +43,61 @@ contract('Splitter', function(accounts) {
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
         balanceBefore = balance.toNumber();
-        return splitter.withdraw(100000000000000, { from: accounts[1] });
-      }).then(function() {
+        return splitter.withdraw(splitAmount, { from: accounts[1], gasPrice: gasPrice });
+      }).then(function(_txObj) {
+        txObj = _txObj;
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
         balanceAfter = balance.toNumber();
-        assert.equal(balanceBefore, balanceAfter, "Benifciary did not withdraw 100000000000000");
+        assert.equal(balanceBefore + splitAmount , balanceAfter + getGasUsedInWei(txObj), "Benifciary did not withdraw " + splitAmount);
       });
     });
+
+    it("should allow the withdrawal of part of the money by second benifciary", function() {
+      return Splitter.deployed().then(function(instance) {
+        splitter = instance;
+        return web3.eth.getBalancePromise(accounts[2]);
+      }).then(function(balance) {
+        balanceBefore = balance.toNumber();
+        return splitter.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice });
+      }).then(function(_txObj) {
+        txObj = _txObj;
+        return web3.eth.getBalancePromise(accounts[2]);
+      }).then(function(balance) {
+        balanceAfter = balance.toNumber();
+        assert.equal(balanceBefore + splitAmount , balanceAfter + getGasUsedInWei(txObj), "Benifciary did not withdraw " + splitAmount);
+      });
+    });
+
+    it("should generate an error when any benifciary tries to withdraw again", function() {
+      return Splitter.deployed().then(function(instance) {
+        tryCatch(instance.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
+      });
+    });
+
   }); 
 
-  // it("should send coin correctly", function() {
-  //   return MetaCoin.deployed().then(function(instance) {
-  //     meta = instance;
-  //     return meta.getBalance.call(account_one);
-  //   }).then(function(balance) {
-  //     account_one_starting_balance = balance.toNumber();
-  //     return meta.getBalance.call(account_two);
-  //   }).then(function(balance) {
-  //     account_two_starting_balance = balance.toNumber();
-  //     return meta.sendCoin(account_two, amount, {from: account_one});
-  //   }).then(function() {
-  //     return meta.getBalance.call(account_one);
-  //   }).then(function(balance) {
-  //     account_one_ending_balance = balance.toNumber();
-  //     return meta.getBalance.call(account_two);
-  //   }).then(function(balance) {
-  //     account_two_ending_balance = balance.toNumber();
+  describe("Killing the contract", function() {
+    it("should generate an error when any person other than the owner tries to kill the contract", function() {
+      return Splitter.deployed().then(function(instance) {
+        tryCatch(instance.destruct({ from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
+      });
+    });
 
-  //     assert.equal(account_one_ending_balance, account_one_starting_balance - amount, "Amount wasn't correctly taken from the sender");
-  //     assert.equal(account_two_ending_balance, account_two_starting_balance + amount, "Amount wasn't correctly sent to the receiver");
-  //   });
-  // });
+    it("should allow the destruction of the contract when the owner initiates the action", function() {
+      return Splitter.deployed().then(function(instance) {
+        return instance.destruct({ from: accounts[0], gasPrice: gasPrice })
+      }).then(function() {
+        assert.ok(true);
+      });
+    });
+
+    it("should generate an error when trying to interact with the killed contract", function() {
+      return Splitter.deployed().then(function(instance) {
+        tryCatch(splitter.getBalance(), errTypes.revert);
+      });
+    });
+
+  }); 
 
 });
