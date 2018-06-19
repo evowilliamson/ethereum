@@ -12,24 +12,61 @@ splitter.
 contract Splitter {
 
     mapping(address => uint) public balances;
-    address firstBeneficiary;
-    address secondBeneficiary;
+    address public firstBeneficiary;
+    address public secondBeneficiary;
     address owner;
-    address splitter;
+    address sender;
+    bool active = false;
     
     event ContractCreated(address owner);
-    event MoneySplittedBy(address splitter, uint amount);
+    event MoneySplittedBy(address sender, uint amount);
     event MoneyWithdrawnBy(address beneficiary, uint amount);
     event ContractDestruct(uint amount);
+    event ActivateContract();
+    event DeactivateContract();
+    
+    /** Although not needed, handy for testing in Remix.
+     **/
+    function getBalance() public view returns (uint balance) {
+        
+        return address(this).balance;
+        
+    }
+
     
     /**
      * Constructor that sets the owner
      **/
     constructor() public {
         
-        owner = msg.sender;
         emit ContractCreated(owner);
-        
+        owner = msg.sender;
+        activate();
+
+    }
+
+    function activate() public onlyOwner {
+        if (!active) {
+            emit ActivateContract();
+            active = true;
+        }
+    }
+
+    function deactivate() public onlyOwner {
+        if (active) {
+            emit DeactivateContract();
+            active = false;
+        }
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can do this");
+        _;
+    }
+
+    modifier onlyWhenActive() {
+        require(active, "Contract is not active");
+        _;
     }
 
     /**
@@ -37,19 +74,20 @@ contract Splitter {
      * available beneficiaries, will call. 
      **/
     function split(address _firstBeneficiary, address _secondBeneficiary) 
-        public payable {
+        public payable onlyWhenActive {
 
-        require(_firstBeneficiary != 0 && _secondBeneficiary != 0, 
-            "Two beneficiaries addresses must be provided");
-        require(splitter == 0, "Contract already used to split");
+        require(_firstBeneficiary != 0, "First beneficiariy addresses must be provided");
+        require(_secondBeneficiary != 0, "Second beneficiariy addresses must be provided");
+        require(sender == 0, "Contract already used to split");
+        emit MoneySplittedBy(msg.sender, msg.value);
         
         firstBeneficiary = _firstBeneficiary;
         secondBeneficiary = _secondBeneficiary;
-        splitter = msg.sender;
+        sender = msg.sender;
+        // think about catching odd number by ignoring the remainder
         uint splittedAmount = msg.value / 2;
         balances[firstBeneficiary] = splittedAmount;
         balances[secondBeneficiary] = (msg.value - splittedAmount);
-        emit MoneySplittedBy(msg.sender, msg.value);
         
     }
 
@@ -67,35 +105,13 @@ contract Splitter {
      * This function, called by a beneficiary, will withdraw the passed 
      * amount of money from the beneficiary balance.
      **/
-    function withdraw(uint amount) public payable {
+    function withdraw(uint amount) public payable onlyWhenActive {
 
         require(amount <= balances[msg.sender], "Not enough balance");
         balances[msg.sender] -= amount;
-        msg.sender.transfer(amount);
         emit MoneyWithdrawnBy(msg.sender, amount);
+        msg.sender.transfer(amount);
 
     }
 
-    /** Although not needed, handy for testing in Remix.
-     **/
-    function getBalance() public view returns (uint balance) {
-        
-        return address(this).balance;
-        
-    }
-    
-    /**
-     * The owner of the contract can decide at any moment to kill the contract
-     ** and return the funds to the splitter.
-     **/
-    function destruct() public payable {
-        
-        require(msg.sender == owner, "Only the owner can destruct the contract");
-        uint balanceLeft = address(this).balance;
-        // Event before selfdestruct, otherwise no event will be logged.
-        emit ContractDestruct(balanceLeft);
-        selfdestruct(splitter);
-        
-    }
-    
 }

@@ -19,9 +19,22 @@ function getGasUsedInWei(txObj) {
 contract('Splitter', function(accounts) {
 
   describe("Splitting the money", function() {
-    it("should put 1000000 wei in the Splitter contract", function() {
+    it("should generate an error when trying to do a split on a deactivated contract", function() {
       return Splitter.deployed().then(function(instance) {
         splitter = instance;
+        return splitter.deactivate({ from: accounts[0] });
+      }).then(function() {
+        tryCatch(splitter.split(
+          accounts[1], accounts[2],
+          {from: accounts[0], value: totalAmount, gasPrice: gasPrice}), errTypes.revert);
+      });
+    });
+
+  it("should put 100000000000 wei in the Splitter contract", function() {
+      return Splitter.deployed().then(function(instance) {
+        splitter = instance;
+        return splitter.activate({ from: accounts[0] });
+      }).then(function() {
         return splitter.split(accounts[1], accounts[2], {from: accounts[0], value: totalAmount, gasPrice: gasPrice});
       }).then(function() {
         return splitter.getBalance();
@@ -40,12 +53,23 @@ contract('Splitter', function(accounts) {
   });
 
   describe("Withdrawing the money", function() {
+    it("should not allow the withdrawal of part of the money when the contract is deactivated", function() {
+      return Splitter.deployed().then(function(instance) {
+        splitter = instance;
+        return splitter.deactivate({ from: accounts[0] });
+      }).then(function() {
+        tryCatch(splitter.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
+      });
+    });
+
     it("should allow the withdrawal of part of the money by first benifciary", function() {
       return Splitter.deployed().then(function(instance) {
         splitter = instance;
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
         balanceBefore = balance.toNumber();
+        return splitter.activate({ from: accounts[0] });
+      }).then(function(balance) {
         return splitter.withdraw(splitAmount, { from: accounts[1], gasPrice: gasPrice });
       }).then(function(_txObj) {
         txObj = _txObj;
@@ -65,6 +89,8 @@ contract('Splitter', function(accounts) {
         return web3.eth.getBalancePromise(accounts[2]);
       }).then(function(balance) {
         balanceBefore = balance.toNumber();
+        return splitter.activate({ from: accounts[0] });
+      }).then(function(balance) {
         return splitter.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice });
       }).then(function(_txObj) {
         txObj = _txObj;
@@ -82,41 +108,6 @@ contract('Splitter', function(accounts) {
       "amount that exceeds the balance in the contract", function() {
       return Splitter.deployed().then(function(instance) {
         tryCatch(instance.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
-      });
-    });
-
-  }); 
-
-  describe("Killing the contract", function() {
-    it("should generate an error when any person other than the owner tries to kill the contract", function() {
-      return Splitter.deployed().then(function(instance) {
-        tryCatch(instance.destruct({ from: accounts[2], gasPrice: gasPrice }), errTypes.revert);
-      });
-    });
-
-    // At this point, 2000000000000000 is left over in the contract. Upon killing, this amount should be sent to the owner
-    it("should allow the destruction of the contract when the owner initiates the action", function() {
-      return Splitter.deployed().then(function(instance) {
-        splitter = instance;
-        return web3.eth.getBalancePromise(accounts[0]);
-      }).then(function(balance) {
-        balanceBefore = balance.toNumber();
-        return splitter.destruct({ from: accounts[0], gasPrice: gasPrice })
-      }).then(function(_txObj) {
-        txObj = _txObj;
-        return web3.eth.getBalancePromise(accounts[0]);
-      }).then(function(balance) {
-        balanceAfter = balance.toNumber();
-        assert.equal(
-          balanceBefore + leftOverInContract , 
-          balanceAfter + getGasUsedInWei(txObj), 
-          "Owner didn't get the money left in the contract " + leftOverInContract);
-      });
-    });
-
-    it("should generate an error when trying to interact with the killed contract", function() {
-      return Splitter.deployed().then(function(instance) {
-        tryCatch(splitter.getBalance(), errTypes.revert);
       });
     });
 
