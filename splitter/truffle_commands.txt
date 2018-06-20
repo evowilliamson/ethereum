@@ -17,6 +17,10 @@ Splitter.deployed().then(instance => instance.destruct({ from: accounts[0] })).t
 Splitter.deployed().then(instance => instance.getBalance.call().then(newResult => result = newResult).catch(console.error);
 
 
+
+Splitter.deployed().then(instance => instance.withdraw(5000000000000000000, { from: accounts[1], gasPrice: 100000000000 })).then(_txObj => txObjNew = _txObj).catch(console.error);
+
+
 web3.eth.getBalancePromise(accounts[1]).then(function(balance) { console.log(balance.toString());});
 
 

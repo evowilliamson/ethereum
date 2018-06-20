@@ -1,7 +1,5 @@
-var Splitter = artifacts.require("./Splitter.sol");
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+const Splitter = artifacts.require("./Splitter.sol");
 
 module.exports = function(deployer) {
   deployer.deploy(Splitter);
-  deployer.deploy(SimpleStorage);
 };
