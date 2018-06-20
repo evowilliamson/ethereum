@@ -25,15 +25,6 @@ contract Splitter {
     event ActivateContract();
     event DeactivateContract();
     
-    /** Although not needed, handy for testing in Remix.
-     **/
-    function getBalance() public view returns (uint balance) {
-        
-        return address(this).balance;
-        
-    }
-
-    
     /**
      * Constructor that sets the owner
      **/
@@ -78,7 +69,6 @@ contract Splitter {
 
         require(_firstBeneficiary != 0, "First beneficiariy addresses must be provided");
         require(_secondBeneficiary != 0, "Second beneficiariy addresses must be provided");
-        require(sender == 0, "Contract already used to split");
         emit MoneySplittedBy(msg.sender, msg.value);
         
         firstBeneficiary = _firstBeneficiary;
@@ -113,5 +103,5 @@ contract Splitter {
         msg.sender.transfer(amount);
 
     }
-
+ 
 }
