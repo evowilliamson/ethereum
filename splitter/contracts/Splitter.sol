@@ -1,5 +1,7 @@
 pragma solidity ^0.4.24;
 
+import "./Pausible.sol";
+import "./Ownable.sol";
 
 /*
 Splitter Contract. When the contract is created, two beneficiaries are stored.
@@ -9,55 +11,33 @@ withdrawals. At any moment the owner of the contract can kill the
 contract. In that case, the money that is left in the contract is returned to the
 splitter.
 */
-contract Splitter {
+contract Splitter is Pausible, Ownable {
 
     mapping(address => uint) public balances;
     address public firstBeneficiary;
     address public secondBeneficiary;
-    address owner;
     address sender;
-    bool active = false;
     
     event ContractCreated(address owner);
     event MoneySplittedBy(address sender, uint amount);
     event MoneyWithdrawnBy(address beneficiary, uint amount);
-    event ContractDestruct(uint amount);
-    event ActivateContract();
-    event DeactivateContract();
     
-    /**
-     * Constructor that sets the owner
-     **/
     constructor() public {
         
         emit ContractCreated(owner);
-        owner = msg.sender;
-        activate();
 
     }
 
     function activate() public onlyOwner {
-        if (!active) {
-            emit ActivateContract();
-            active = true;
-        }
+
+        super.activate(owner);
+
     }
 
     function deactivate() public onlyOwner {
-        if (active) {
-            emit DeactivateContract();
-            active = false;
-        }
-    }
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can do this");
-        _;
-    }
+        super.deactivate(owner);
 
-    modifier onlyWhenActive() {
-        require(active, "Contract is not active");
-        _;
     }
 
     /**
