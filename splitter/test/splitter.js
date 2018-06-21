@@ -80,23 +80,22 @@ contract('Splitter', function(accounts) {
     it("should allow the withdrawal of part of the money by first benifciary", function() {
       let splitter;
       let balanceBefore;
-      let balanceAfter;
       let txObj;
       return Splitter.deployed().then(function(instance) {
         splitter = instance;
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
-        balanceBefore = balance.toNumber();
+        balanceBefore = balance;
         return splitter.withdraw(splitAmount, { from: accounts[1], gasPrice: gasPrice });
       }).then(function(_txObj) {
         txObj = _txObj
         assert.strictEqual(txObj.logs[0].event, "MoneyWithdrawnBy");
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
-        balanceAfter = balance.toNumber();
+        let balanceAfter = balance;
         assert.strictEqual(
-          new BigNumber(balanceBefore).plus(new BigNumber(splitAmount)).toString(), 
-          new BigNumber(balanceAfter).plus(new BigNumber(getGasUsedInWei(txObj))).toString(), 
+          new BigNumber(balanceBefore).plus(new BigNumber(splitAmount)).toString(10), 
+          new BigNumber(balanceAfter).plus(new BigNumber(getGasUsedInWei(txObj))).toString(10), 
           "Benifciary did not withdraw " + splitAmount);
       });
     });
@@ -104,23 +103,22 @@ contract('Splitter', function(accounts) {
     it("should allow the withdrawal of part of the money by first benifciary", function() {
       let splitter;
       let balanceBefore;
-      let balanceAfter;
       let txObj;
       return Splitter.deployed().then(function(instance) {
         splitter = instance;
         return web3.eth.getBalancePromise(accounts[2]);
       }).then(function(balance) {
-        balanceBefore = balance.toNumber();
+        balanceBefore = balance;
         return splitter.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice });
       }).then(function(_txObj) {
         txObj = _txObj
         assert.strictEqual(txObj.logs[0].event, "MoneyWithdrawnBy");
         return web3.eth.getBalancePromise(accounts[2]);
       }).then(function(balance) {
-        balanceAfter = balance.toNumber();
+        let balanceAfter = balance;
         assert.strictEqual(
-          new BigNumber(balanceBefore).plus(new BigNumber(splitAmount)).toString(), 
-          new BigNumber(balanceAfter).plus(new BigNumber(getGasUsedInWei(txObj))).toString(), 
+          new BigNumber(balanceBefore).plus(new BigNumber(splitAmount)).toString(10), 
+          new BigNumber(balanceAfter).plus(new BigNumber(getGasUsedInWei(txObj))).toString(10), 
           "Benifciary did not withdraw " + splitAmount);
       });
     });
@@ -133,5 +131,28 @@ contract('Splitter', function(accounts) {
     });
 
   }); 
+
+  describe("Splitting the money again against same contract", function() {
+    it("should put 100000000000 wei in the Splitter contract", function() {
+      let splitter;
+      let balanceBefore;
+      return Splitter.deployed().then(function(instance) {
+        splitter = instance;
+        return getContractBalance();
+      }).then(function(balance) {
+        balanceBefore = balance;
+        return splitter.split(accounts[1], accounts[2], {from: accounts[0], value: totalAmount, gasPrice: gasPrice});
+      }).then(function(txObj) {
+        assert.strictEqual(txObj.logs[0].event, "MoneySplittedBy");
+        return getContractBalance();
+      }).then(function(balance) {
+        let balanceAfter = balance;
+        assert.strictEqual(
+          new BigNumber(balanceBefore).plus(new BigNumber(totalAmount)).toString(10),
+          new BigNumber(balanceAfter).toString(10),
+          totalAmount + " wasn't in the Splitter contract");
+      });
+    });
+  });
 
 });
