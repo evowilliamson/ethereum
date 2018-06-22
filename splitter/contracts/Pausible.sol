@@ -1,10 +1,11 @@
 pragma solidity ^0.4.24;
 
+import "./Ownable.sol";
 
 /*
 Pausible super contract
 */
-contract Pausible {
+contract Pausible is Ownable {
 
     bool public active = false;
 
@@ -22,18 +23,19 @@ contract Pausible {
         _;
     }
 
-    function activate(address owner) internal {
-        if (!active) {
-            emit ActivateContract(owner);
-            active = true;
-        }
+    modifier onlyWhenInactive() {
+        require(!active, "Contract is not inactive");
+        _;
     }
 
-    function deactivate(address owner) internal {
-        if (active) {
-            emit DeactivateContract(owner);
-            active = false;
-        }
+    function activate(address owner) internal onlyWhenInactive {
+        emit ActivateContract(owner);
+        active = true;
+    }
+
+    function deactivate(address owner) internal onlyWhenActive {
+        emit DeactivateContract(owner);
+        active = false;
     }
  
 }

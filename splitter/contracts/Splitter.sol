@@ -1,7 +1,6 @@
 pragma solidity ^0.4.24;
 
 import "./Pausible.sol";
-import "./Ownable.sol";
 
 /*
 Splitter Contract. When the contract is created, two beneficiaries are stored.
@@ -11,7 +10,9 @@ withdrawals. At any moment the owner of the contract can kill the
 contract. In that case, the money that is left in the contract is returned to the
 splitter.
 */
-contract Splitter is Pausible, Ownable {
+
+
+contract Splitter is Pausible {
 
     mapping(address => uint) public balances;
     address public firstBeneficiary;
