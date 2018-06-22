@@ -43,3 +43,8 @@ Benifciary did not withdraw 5000000000000000000, gasPrice: 100000000000, getGasU
 
 124987178952900000000
      2154200000000000 - 124989333152900000000
+
+
+https://ether.direct/2017/08/15/how-to-deploy-a-truffle-contract-to-ropsten/
+web3.eth.getCode("0x57C9D8697F191380e8926a672CAf17158b2f1af5")
+
