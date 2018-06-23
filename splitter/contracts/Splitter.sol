@@ -146,8 +146,4 @@ contract Splitter is Pausible {
         return groups[donator].beneficiaryBalances[msg.sender];
     }
     
-    function getBalance() public view returns (uint) {
-        return address(this).balance;
-    }
-
 }
