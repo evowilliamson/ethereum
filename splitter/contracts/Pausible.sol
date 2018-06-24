@@ -28,13 +28,13 @@ contract Pausible is Ownable {
         _;
     }
 
-    function activate(address owner) internal onlyWhenInactive {
-        emit ActivateContract(owner);
+    function activate() public onlyWhenInactive onlyOwner {
+        emit ActivateContract(msg.sender);
         active = true;
     }
 
-    function deactivate(address owner) internal onlyWhenActive {
-        emit DeactivateContract(owner);
+    function deactivate() public onlyWhenActive onlyOwner {
+        emit DeactivateContract(msg.sender);
         active = false;
     }
  

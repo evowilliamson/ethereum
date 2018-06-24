@@ -126,21 +126,6 @@ contract('Splitter', function(accounts) {
             new BigNumber(totalAmount).multipliedBy(2).toString(10) + " wasn't in the Splitter contract");
       });
     });
-
-    it("should not put {totalAmount}*2 wei in the Splitter contract when doing two splits with" + 
-       "different benificiaries", function() {
-      return getContractBalance()
-        .then(function (balance) {
-        balanceBefore = balance;
-        return splitter.split(accounts[1], accounts[2], { from: accounts[0], value: totalAmount, 
-          gasPrice: gasPrice });
-      }).then(function () {
-        return expectedExceptionPromise(function () {
-          return splitter.split(accounts[1], accounts[3], {from: accounts[0], value: totalAmount, 
-              gasPrice: gasPrice});
-        });
-      });
-    });
   });
 
   describe("Withdrawing the money", function() {
@@ -151,7 +136,7 @@ contract('Splitter', function(accounts) {
         return splitter.deactivate({ from: accounts[0] });
       }).then(function() {
         return expectedExceptionPromise(function () {
-          return splitter.withdraw(accounts[0], splitAmount, { from: accounts[2], gasPrice: gasPrice });
+          return splitter.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice });
         });
       });
     });
@@ -164,7 +149,7 @@ contract('Splitter', function(accounts) {
         return web3.eth.getBalancePromise(accounts[1]);
       }).then(function(balance) {
         balanceBefore = balance;
-        return splitter.withdraw(accounts[0], splitAmount, { from: accounts[1], gasPrice: gasPrice });
+        return splitter.withdraw(splitAmount, { from: accounts[1], gasPrice: gasPrice });
       }).then(function(_txObj) {
         txObj = _txObj
         assert.strictEqual(txObj.logs[0].event, "MoneyWithdrawnBy");
@@ -183,12 +168,12 @@ contract('Splitter', function(accounts) {
       let txObj;
       return splitter.split(accounts[1], accounts[2], { from: accounts[0], value: totalAmount, 
         gasPrice: gasPrice }).then(function (txObj) {
-        return splitter.withdraw(accounts[0], splitAmount, { from: accounts[1], gasPrice: gasPrice });
+        return splitter.withdraw(splitAmount, { from: accounts[1], gasPrice: gasPrice });
       }).then(function() {
         return web3.eth.getBalancePromise(accounts[2]);
       }).then(function(balance) {
         balanceBefore = balance;
-        return splitter.withdraw(accounts[0], splitAmount, { from: accounts[2], gasPrice: gasPrice });
+        return splitter.withdraw(splitAmount, { from: accounts[2], gasPrice: gasPrice });
       }).then(function(_txObj) {
         txObj = _txObj
         return web3.eth.getBalancePromise(accounts[2]);
@@ -207,9 +192,8 @@ contract('Splitter', function(accounts) {
         { from: accounts[0], value: totalAmount, gasPrice: gasPrice })
         .then(function () {
         return expectedExceptionPromise(function () {
-          return splitter.withdraw(accounts[0],
-            new BigNumber(totalAmount).multipliedBy(2).toString(10), { from: accounts[2], 
-              gasPrice: gasPrice });
+          return splitter.withdraw(new BigNumber(totalAmount).multipliedBy(2).toString(10), 
+            { from: accounts[2], gasPrice: gasPrice });
         });
       });
     });
