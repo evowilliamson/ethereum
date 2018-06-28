@@ -1,22 +1,40 @@
+"0xca35b7d915458ef540ade6068dfe2f44e8fa733c"
+"0x14723a09acff6d2a60dcdf7aa4aff308fddc160c", "0x4b0897b0513fdc7c541b6d9d7e929c4e5364d2db"
+"0x14723a09acff6d2a60dcdf7aa4aff308fddc160c", "0xdd870fa1b7c4700f2bd7f44238821c26f7392148"
+
+"0x583031d1113ad414f02576bd6afabfb302140225"
+"0xe43782b8224812529b22a395d682db2a9497a8f3", "0xdd870fa1b7c4700f2bd7f44238821c26f7392148"
+
+
+
 "0xca35b7d915458ef540ade6068dfe2f44e8fa733c", "0x14723a09acff6d2a60dcdf7aa4aff308fddc160c"
+
 ganache-cli --accounts=5
 
+const web3Utils = require('web3-utils');
 const Promise = require('bluebird');
 Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 Promise.promisifyAll(web3.version, { suffix: "Promise" });
 web3.eth.getAccountsPromise().then(_accounts => accounts = _accounts);
+
 Splitter.deployed().then(instance => instance.split(accounts[1], accounts[2], {from: accounts[0], value: 10000000000000000000, gasPrice: 100000000000})).then(_txObj => txObj = _txObj).catch(console.error);
 Splitter.deployed().then(instance => instance.split(accounts[1], accounts[2], {from: accounts[0], value: 10000000000000000000, gasPrice: 100000000000})).then(_txObj => txObj = _txObj).catch(console.error);
 Splitter.deployed().then(instance => instance.activate({ from: accounts[0] })).then(newResult => result = newResult).catch(console.error);
 Splitter.deployed().then(instance => instance.deactivate({ from: accounts[0] })).then(newResult => result = newResult).catch(console.error);
 Splitter.deployed().then(instance => instance.withdraw(5000000000000000000, { from: accounts[1], gasPrice: 100000000000 })).then(_txObj => txObj = _txObj).catch(console.error);
-Splitter.deployed().then(instance => instance.getBalance()).then(newResult => result = newResult).catch(console.error);
+Splitter.deployed().then(instance => instance.getDonatorBalance({ from: accounts[0] })).then(newResult => result = newResult).catch(console.error);
 Splitter.deployed().then(instance => instance.withdraw(5000000000000000000, { from: accounts[2] gasPrice: 100000000000 })).then(_txObj => txObj = _txObj).catch(console.error);
 Splitter.deployed().then(instance => instance.getBalance()).then(newResult => result = newResult).catch(console.error);
 Splitter.deployed().then(instance => instance.destruct({ from: accounts[0] })).then(newResult => result = newResult).catch(console.error);
 
 Splitter.deployed().then(instance => instance.getBalance.call().then(newResult => result = newResult).catch(console.error);
 
+
+Remittance.deployed().then(instance => instance.sendMoney(web3Utils.toHex("dummy"), 10, {from: accounts[0], value: 1000000, gasPrice: 5000000})).then(_txObj => txObj = _txObj).catch(console.error);
+    accounts[1], accounts[2], {from: accounts[0], value: 10000000000000000000, gasPrice: 100000000000})).then(_txObj => txObj = _txObj).catch(console.error);
+
+send(web3Utils.toHex("dummy"), daysClaim, {from: accounts[0], value: totalAmount, 
+          gasPrice: gasPrice});
 
 
 Splitter.deployed().then(instance => instance.withdraw(5000000000000000000, { from: accounts[1], gasPrice: 100000000000 })).then(_txObj => txObjNew = _txObj).catch(console.error);
@@ -48,3 +66,6 @@ Benifciary did not withdraw 5000000000000000000, gasPrice: 100000000000, getGasU
 https://ether.direct/2017/08/15/how-to-deploy-a-truffle-contract-to-ropsten/
 web3.eth.getCode("0x57C9D8697F191380e8926a672CAf17158b2f1af5")
 
+
+
+Splitter.new({ from: accounts[0] }).then(_instance => instance = _instance);

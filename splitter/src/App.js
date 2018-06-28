@@ -8,9 +8,6 @@ import './css/open-sans.css'
 import './css/pure-min.css'
 import './App.css'
 
-const Promise = require('bluebird');
-Promise.promisifyAll(this.state.web3.eth, { suffix: "Promise" });
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -62,6 +59,8 @@ class App extends Component {
     simpleStorage.setProvider(this.state.web3.currentProvider)
     const splitter = contract(SplitterContract)
     splitter.setProvider(this.state.web3.currentProvider)
+    const Promise = require('bluebird');
+    Promise.promisifyAll(this.state.web3.eth, { suffix: "Promise" });
     
     // Declaring this for later so we can chain functions on SimpleStorage.
     var simpleStorageInstance
