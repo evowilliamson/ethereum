@@ -1,12 +1,12 @@
 const Splitter = artifacts.require("./Splitter.sol");
 const BigNumber = require('bignumber.js');
 const Promise = require('bluebird');
+const expectedExceptionPromise = require("./expected_exception_ganache_and_geth.js");  
   
 contract('Splitter', function(accounts) {
 
   Promise.promisifyAll(web3.eth, { suffix: "Promise" });
   
-  const expectedExceptionPromise = require("./expected_exception_ganache_and_geth.js");  
   const gasPrice = 100000000000;
   const totalAmount = 10000000000000000;
   const splitAmount = 4000000000000000;
