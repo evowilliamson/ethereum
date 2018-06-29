@@ -9,6 +9,8 @@ Splitter Contract. Anybody can donate mon
 
 contract Splitter is Pausible {
 
+    using SafeMath for uint256;
+
     event ContractCreated(address owner);
     event MoneySplittedBy(address donator, uint256 amount);
     event MoneyWithdrawnBy(address beneficiary, uint256 amount);
@@ -33,19 +35,16 @@ contract Splitter is Pausible {
         require(msg.value > 0, "Value must be greater than 0");
         
         // Split the money over the benificiaries. 
-        uint256 splittedAmount = SafeMath.div(msg.value, 2);
-        balances[_firstBeneficiary] = 
-            SafeMath.add(balances[_firstBeneficiary], splittedAmount);
-        balances[_secondBeneficiary] = 
-            SafeMath.add(balances[_secondBeneficiary], splittedAmount);
+        uint256 splittedAmount = msg.value.div(2);
+        balances[_firstBeneficiary] = balances[_firstBeneficiary].add(splittedAmount);
+        balances[_secondBeneficiary] = balances[_secondBeneficiary].add(splittedAmount);
         emit MoneySplittedBy(msg.sender, msg.value);
 
         // Give the remainder back to the sender
         
-        uint256 totalAmountForBeneciaries = SafeMath.mul(2,splittedAmount);
-        if (totalAmountForBeneciaries != msg.value) {
-            balances[msg.sender] = SafeMath.add(1, balances[msg.sender]); 
-        }
+        uint256 totalAmountForBeneciaries = splittedAmount.mul(2);
+        balances[msg.sender] = balances[msg.sender]
+            .add(totalAmountForBeneciaries % splittedAmount);
 
     }
 
@@ -68,7 +67,7 @@ contract Splitter is Pausible {
 
         uint256 beforeBal = balances[msg.sender];
         require(amount <= beforeBal, "Not enough balance");
-        balances[msg.sender] = SafeMath.sub(beforeBal, amount);
+        balances[msg.sender] = beforeBal.sub(amount);
         emit MoneyWithdrawnBy(msg.sender, amount);
         msg.sender.transfer(amount);
 
