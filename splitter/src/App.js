@@ -15,7 +15,9 @@ class App extends Component {
   splitter = this.contract(SplitterContract);
   sequentialPromiseNamed = require("./utils/sequentialPromiseNamed.js"); 
   splitterInstance;
-  accounts;
+  alice;
+  carol;
+  bob;
 
   constructor(props) {
     super(props)
@@ -27,7 +29,10 @@ class App extends Component {
       carol_balance: 0,
       bob_balance: 0,
       splitter_balance: 0,
-      money_to_contract: 0
+      money_to_contract: 0,
+      withdraw_by_bob: 0,
+      withdraw_by_carol: 0 ,
+      transaction_status: ""    
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -36,7 +41,6 @@ class App extends Component {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
 
-    console.log("fdsfdfdf")
     getWeb3
     .then(results => {
       this.setState({
@@ -62,15 +66,20 @@ class App extends Component {
     Promise.promisifyAll(this.state.web3.eth, { suffix: "Promise" });
     
     this.state.web3.eth.getAccounts((error, accounts) => {
-      this.accounts = accounts;
+      if (accounts.length < 3) {
+        throw new Error("There must be at least three accounts");
+      }
+      this.alice = accounts[0];
+      this.carol = accounts[1];
+      this.bob = accounts[2];
     })
 
     this.splitter.deployed().then((instance) => {
       this.splitterInstance = instance;
       return this.sequentialPromiseNamed({
-        alice_balance:    () => this.getAccountBalance(this.accounts[0]),
-        carol_balance:    () => this.getAccountBalance(this.accounts[1]),
-        bob_balance:      () => this.getAccountBalance(this.accounts[2]),
+        alice_balance:    () => this.getAccountBalance(this.alice),
+        carol_balance:    () => this.getAccountBalance(this.carol),
+        bob_balance:      () => this.getAccountBalance(this.bob),
         splitter_balance: () => this.getAccountBalance(this.splitterInstance.address)
       }).then((result) => {
         return this.setState({ 
@@ -89,16 +98,32 @@ class App extends Component {
 
   handleSplitMoney (evt) {
 
-    return this.splitterInstance.split(this.accounts[1], this.accounts[2], { from: this.accounts[0], value: this.state.money_to_contract, 
+    return this.splitterInstance.split(this.carol, this.bob, { from: this.alice, value: this.state.money_to_contract, 
       gasPrice: gasPrice });      
     };
 
-  handleWithdrawCarol (evt) {
-
+  withdraw(account, amount) {
+    return this.splitterInstance.withdraw(amount, { from: account, gasPrice: gasPrice }
+    ).then((txObj) => {
+      console.log(txObj);
+      return this.setState({ 
+        transaction_status: txObj.logs[0].event
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+      return this.setState({ 
+        transaction_status: error
+      })
+    })
   }
 
   handleWithdrawBob (evt) {
+    return this.withdraw(this.bob, this.state.withdraw_by_bob);
+  }
 
+  handleWithdrawCarol (evt) {
+    return this.withdraw(this.carol, this.state.withdraw_by_carol);
   }
 
   render() {
@@ -107,34 +132,34 @@ class App extends Component {
         <nav className="navbar pure-menu pure-menu-horizontal">
             <a href="#" className="pure-menu-heading pure-menu-link">Truffle Box</a>
         </nav>
-
         <main className="container">
           <div className="pure-g">
             <div className="pure-u-1-1">
               <h1>Splitter Contract</h1>
               <form>
-              <h3>Splitter account balance</h3>
-              <input type="text" name="splitter_balance" value={this.state.splitter_balance} onChange={this.handleChange} />
+              <h3>Splitter contract balance</h3>
+              <input type="text" size="30" name="splitter_balance" value={this.state.splitter_balance} onChange={this.handleChange} />
               <h3>Alice account balance</h3>
-              <input type="text" name="alice_balance" value={this.state.alice_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="alice_balance" value={this.state.alice_balance} onChange={this.handleChange} />
               <h3>Carol account balance</h3>
-              <input type="text" name="carol_balance" value={this.state.carol_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="carol_balance" value={this.state.carol_balance} onChange={this.handleChange} />
               <h3>Bob account balance</h3>
-              <input type="text" name="bob_balance" value={this.state.bob_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="bob_balance" value={this.state.bob_balance} onChange={this.handleChange} />
               <br></br>
-              <h3>Money to sent to Splitter Contract</h3>
-              <input type="text" name="money_to_contract" value={this.money_to_contract} onChange={this.handleChange} />
+              <h3>Money to send to Splitter Contract</h3>
+              <input type="text" size="30" name="money_to_contract" value={this.state.money_to_contract} onChange={this.handleChange} />&nbsp;&nbsp;
               <button onClick={this.handleSplitMoney.bind(this)}>Split Money</button>
-              <h3>Money to withdraw by Carol</h3>
-              <input type="text" name="withdraw_by_carol" value={this.withdraw_by_carol} onChange={this.handleChange} />
-              <button onClick={this.handleWithdrawCarol.bind(this)}>Withdraw</button>
-              <h3>Money to withdraw by Carol</h3>
-              <input type="text" name="withdraw_by_bob" value={this.withdraw_by_bob} onChange={this.handleChange} />
+              <h3>Money to withdraw by Bob</h3>
+              <input type="text" size="30" name="withdraw_by_bob" value={this.state.withdraw_by_bob} onChange={this.handleChange} />&nbsp;&nbsp;
               <button onClick={this.handleWithdrawBob.bind(this)}>Withdraw</button>
+              <h3>Money to withdraw by Carol</h3>
+              <input type="text" size="30" name="withdraw_by_carol" value={this.state.withdraw_by_carol} onChange={this.handleChange} />&nbsp;&nbsp;
+              <button onClick={this.handleWithdrawCarol.bind(this)}>Withdraw</button>
+              <h4>Transaction status</h4>
+              <textarea name="transaction_status" rows="4" cols="50" value={this.state.transaction_status} onChange={this.handleChange}/>
               </form>          
             </div>
           </div>
-
         </main>
       </div>
     );
