@@ -7,13 +7,15 @@ import './css/open-sans.css'
 import './css/pure-min.css'
 import './App.css'
 
-const gasPrice = 100000000000;
+
+const gasPrice = 1000000;
 
 class App extends Component {
 
   contract = require('truffle-contract');
   splitter = this.contract(SplitterContract);
   sequentialPromiseNamed = require("./utils/sequentialPromiseNamed.js"); 
+
   splitterInstance;
   alice;
   carol;
@@ -23,7 +25,6 @@ class App extends Component {
     super(props)
 
     this.state = {
-      storageValue: 0,
       web3: null,
       alice_balance: 0,
       carol_balance: 0,
@@ -32,12 +33,12 @@ class App extends Component {
       money_to_contract: 0,
       withdraw_by_bob: 0,
       withdraw_by_carol: 0 ,
-      transaction_status: ""    
+      messages: ""    
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
 
@@ -64,6 +65,9 @@ class App extends Component {
     this.splitter.setProvider(this.state.web3.currentProvider)
     const Promise = require('bluebird');
     Promise.promisifyAll(this.state.web3.eth, { suffix: "Promise" });
+    this.state.web3.eth.getTransactionReceiptMined = 
+      require("./utils/getTransactionReceiptMined.js");  
+
     
     this.state.web3.eth.getAccounts((error, accounts) => {
       if (accounts.length < 3) {
@@ -98,33 +102,66 @@ class App extends Component {
 
   handleSplitMoney (evt) {
 
-    return this.splitterInstance.split(this.carol, this.bob, { from: this.alice, value: this.state.money_to_contract, 
-      gasPrice: gasPrice });      
-    };
+    evt.preventDefault();
+    return this.splitterInstance.split.sendTransaction(this.carol, this.bob, 
+      { from: this.alice, value: this.state.money_to_contract, 
+      gasPrice: gasPrice }
+    ).then((txHash) => {
+      this.setState({messages: "Transaction is being processed "+ txHash });
+      return this.state.web3.eth.getTransactionReceiptMined(txHash);
+    }).then((txObj) => {
+      this.setState({messages: "Transaction processed "});
+      return this.getAccountBalance(this.splitterInstance.address
+      ).then((balance) => {
+      this.setState({splitter_balance: balance.toString(10) });
+      return this.getAccountBalance(this.alice)
+      }).then((balance) => {
+        return this.setState({alice_balance: balance.toString(10) });
+      })
+    }).catch((error) => {
+      return this.setState({messages: "Error: "+ error });
+    })
+  };
+
 
   withdraw(account, amount) {
-    return this.splitterInstance.withdraw(amount, { from: account, gasPrice: gasPrice }
-    ).then((txObj) => {
-      console.log(txObj);
-      return this.setState({ 
-        transaction_status: txObj.logs[0].event
-      })
-    })
-    .catch((error) => {
-      console.log(error);
-      return this.setState({ 
-        transaction_status: error
-      })
+    return this.splitterInstance.withdraw.sendTransaction(amount, 
+      { from: account, gasPrice: gasPrice }
+    ).then((txHash) => {
+      this.setState({messages: "Transaction is being processed "+ txHash });
+      return this.state.web3.eth.getTransactionReceiptMined(txHash);
+    }).then((txObj) => {
+      return this.setState({messages: "Transaction processed "});
+    }).catch((error) => {
+      return this.setState({messages: "Error: "+ error });
     })
   }
 
   handleWithdrawBob (evt) {
-    return this.withdraw(this.bob, this.state.withdraw_by_bob);
-  }
+    evt.preventDefault();
+    return this.withdraw(this.bob, this.state.withdraw_by_bob)
+    .then((txObj) => {
+      return this.getAccountBalance(this.splitterInstance.address)
+    }).then((balance) => {
+      this.setState({splitter_balance: balance });
+      return this.getAccountBalance(this.bob)
+    }).then((balance) => {
+      return this.setState({bob_balance: balance });
+    })
+  };
 
   handleWithdrawCarol (evt) {
-    return this.withdraw(this.carol, this.state.withdraw_by_carol);
-  }
+    evt.preventDefault();
+    return this.withdraw(this.carol, this.state.withdraw_by_carol)
+    .then((txObj) => {
+      return this.getAccountBalance(this.splitterInstance.address)
+    }).then((balance) => {
+      this.setState({splitter_balance: balance });
+      return this.getAccountBalance(this.carol)
+    }).then((balance) => {
+      return this.setState({carol_balance: balance });
+    })
+  };
 
   render() {
     return (
@@ -138,25 +175,33 @@ class App extends Component {
               <h1>Splitter Contract</h1>
               <form>
               <h3>Splitter contract balance</h3>
-              <input type="text" size="30" name="splitter_balance" value={this.state.splitter_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="splitter_balance" value={this.state.splitter_balance} 
+                onChange={this.handleChange} />
               <h3>Alice account balance</h3>
-              <input type="text" size="30" name="alice_balance" value={this.state.alice_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="alice_balance" value={this.state.alice_balance} 
+                onChange={this.handleChange} />
               <h3>Carol account balance</h3>
-              <input type="text" size="30" name="carol_balance" value={this.state.carol_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="carol_balance" value={this.state.carol_balance} 
+                onChange={this.handleChange} />
               <h3>Bob account balance</h3>
-              <input type="text" size="30" name="bob_balance" value={this.state.bob_balance} onChange={this.handleChange} />
+              <input type="text" size="30" name="bob_balance" value={this.state.bob_balance} 
+                onChange={this.handleChange} />
               <br></br>
               <h3>Money to send to Splitter Contract</h3>
-              <input type="text" size="30" name="money_to_contract" value={this.state.money_to_contract} onChange={this.handleChange} />&nbsp;&nbsp;
+              <input type="text" size="30" name="money_to_contract" value={this.state.money_to_contract} 
+                onChange={this.handleChange} />&nbsp;&nbsp;
               <button onClick={this.handleSplitMoney.bind(this)}>Split Money</button>
-              <h3>Money to withdraw by Bob</h3>
-              <input type="text" size="30" name="withdraw_by_bob" value={this.state.withdraw_by_bob} onChange={this.handleChange} />&nbsp;&nbsp;
-              <button onClick={this.handleWithdrawBob.bind(this)}>Withdraw</button>
               <h3>Money to withdraw by Carol</h3>
-              <input type="text" size="30" name="withdraw_by_carol" value={this.state.withdraw_by_carol} onChange={this.handleChange} />&nbsp;&nbsp;
+              <input type="text" size="30" name="withdraw_by_carol" value={this.state.withdraw_by_carol} 
+                onChange={this.handleChange} />&nbsp;&nbsp;
               <button onClick={this.handleWithdrawCarol.bind(this)}>Withdraw</button>
-              <h4>Transaction status</h4>
-              <textarea name="transaction_status" rows="4" cols="50" value={this.state.transaction_status} onChange={this.handleChange}/>
+              <h3>Money to withdraw by Bob</h3>
+              <input type="text" size="30" name="withdraw_by_bob" value={this.state.withdraw_by_bob} 
+                onChange={this.handleChange} />&nbsp;&nbsp;
+              <button onClick={this.handleWithdrawBob.bind(this)}>Withdraw</button>
+              <h4>Messsages</h4>
+              <textarea name="messages" rows="4" cols="50" value={this.state.messages} 
+                onChange={this.handleChange}/>
               </form>          
             </div>
           </div>
