@@ -101,6 +101,46 @@ The approach that was described in the design, let's name it "*Power to the Vehi
 
 If we give the toll booth the task to request access to the toll system on behalf of the vehicle, the toll booth will have to communicate a hashed secret on behalf of the vehicle. The vehicle sends a transaction to the toll booth with the hash, then the toll booth will call the `enterTollSystem` function, sending along the hashed secret. If the vehicle has enough ether, the amount of ether that corresponds with the section will be put in custody. In this approach, the `enterTollsystem` transaction can return a value that indicates success or a failure to grant access. Consequently, the toll booth can grant physical access to the toll system immediately, there is no synchronization issue! Then later, when the vehicle leaves the toll system, the vehicle sends a transaction to the toll booth with the secret in *clear text*. Only when the toll system verifies that the hashed secret and the clear text secret boil down to the same thing, will the road operator owner be able to withdraw the funds that were held in custody. Also, only then will the barrier be opened and the vehicle can leave the toll system. So the mechanism of requesting access and checking the access is reduced to one step, eliminating the need to synchronize these actions, as was the case with the other approach. The complexity of approach "*In the Toll Booth, we trust*", is found in the more obfuscated handling of secrets, although this mechanism is used in many blockchain smart contracts. 
 
-### Example implementation 
+### Implementation 
 
-Of course, there are many ways that lead to Rome. My Github repository contains an example implementation for the "*Power to the Vehicle*" approach. Interfaces and working smart contracts have been developed. Also functioning test cases are provided. This was a good exercise, with lots of backtracking actions based on reflective moments and many *Aha-Erlebnisse*, ... but most of all lots of fun!
+This repository contains the smart contracts, web application and test cases that pertain to the implementation of an electronic toll system by using a Ethereum blockchain.
+
+#### Architecture
+The following component diagram depicts the architecture of the system
+
+![alt text](ComponentModel-ElectronicTollSystem.png)
+
+
+An off-chain data store (PouchDB) is used to:
+
+* Translate blockchain addresses to meaningful logical names
+* Store historical data
+* Manage lists of objects which are hard to maintain in a Solidity
+
+The web application will be responsible for keeping the blockchain state and the off-chain data store in-sync
+
+#### Deploying the smart contracts
+Deploy the smart contracts by issuing the following command in the ```ivo_willemsen-code``` directory:
+```
+truffle deploy
+```
+
+#### Installation of the web application
+Perform the following instructions to install the application:
+  
+```
+npm install
+```
+
+#### Running the application
+First, bring up ganache:
+
+```
+ganache-cli -a 10 -g 15000 -l 150000000000000000 -h 0.0.0.0
+```
+
+... then navigate to the following URL:
+```
+http://localhost:3000
+```
+... play around!

@@ -1,0 +1,2041 @@
+{
+  "contractName": "DepositHolder",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "depositWeis",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogDepositSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "LogOwnerSet",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "depositWeis",
+          "type": "uint256"
+        }
+      ],
+      "name": "setDeposit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getDeposit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5060405160208061050183398101806040528101908080519060200190929190505050336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060008111151561008257600080fd5b8060018190555050610468806100996000396000f300608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806313af403514610067578063893d20e8146100c2578063c399ec8814610119578063f5bade6614610144575b600080fd5b34801561007357600080fd5b506100a8600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610189565b604051808215151515815260200191505060405180910390f35b3480156100ce57600080fd5b506100d761032c565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561012557600080fd5b5061012e610355565b6040518082815260200191505060405180910390f35b34801561015057600080fd5b5061016f6004803603810190808035906020019092919050505061035f565b604051808215151515815260200191505060405180910390f35b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156101e657600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff161415151561024257600080fd5b60008273ffffffffffffffffffffffffffffffffffffffff161415151561026857600080fd5b8173ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167fa1d2149652d81eb35c360c115fc7ac594124cb1ea8a5a33e9a7f5768c62869fb60405160405180910390a3816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060019050919050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000600154905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156103bc57600080fd5b6000821115156103cb57600080fd5b60015482141515156103dc57600080fd5b816001819055503373ffffffffffffffffffffffffffffffffffffffff167ffa53ebd539f52eb4ef352ffacb2f8f5f8080cd8bb7ebb2f1acab3e1ce4bd65cb6001546040518082815260200191505060405180910390a2600190509190505600a165627a7a723058207e49a96ebc6c31a183f79a672a8cf1048b7ba72f1fe4cd6024146fdd3e99588c0029",
+  "deployedBytecode": "0x608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806313af403514610067578063893d20e8146100c2578063c399ec8814610119578063f5bade6614610144575b600080fd5b34801561007357600080fd5b506100a8600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610189565b604051808215151515815260200191505060405180910390f35b3480156100ce57600080fd5b506100d761032c565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561012557600080fd5b5061012e610355565b6040518082815260200191505060405180910390f35b34801561015057600080fd5b5061016f6004803603810190808035906020019092919050505061035f565b604051808215151515815260200191505060405180910390f35b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156101e657600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff161415151561024257600080fd5b60008273ffffffffffffffffffffffffffffffffffffffff161415151561026857600080fd5b8173ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167fa1d2149652d81eb35c360c115fc7ac594124cb1ea8a5a33e9a7f5768c62869fb60405160405180910390a3816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060019050919050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000600154905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156103bc57600080fd5b6000821115156103cb57600080fd5b60015482141515156103dc57600080fd5b816001819055503373ffffffffffffffffffffffffffffffffffffffff167ffa53ebd539f52eb4ef352ffacb2f8f5f8080cd8bb7ebb2f1acab3e1ce4bd65cb6001546040518082815260200191505060405180910390a2600190509190505600a165627a7a723058207e49a96ebc6c31a183f79a672a8cf1048b7ba72f1fe4cd6024146fdd3e99588c0029",
+  "sourceMap": "91:1504:0:-;;;167:106;8:9:-1;5:2;;;30:1;27;20:12;5:2;167:106:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;333:10:4;325:5;;:18;;;;;;;;;;;;;;;;;;237:1:0;227:7;:11;219:20;;;;;;;;258:7;249:6;:16;;;;167:106;91:1504;;;;;;",
+  "deployedSourceMap": "91:1504:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1115:244:4;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1115:244:4;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1424:81;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1424:81:4;;;;;;;;;;;;;;;;;;;;;;;;;;;1504:88:0;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1504:88:0;;;;;;;;;;;;;;;;;;;;;;;1076:268;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1076:268:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1115:244:4;1183:4;262:5;;;;;;;;;;;248:19;;:10;:19;;;240:28;;;;;;;;1220:5;;;;;;;;;;;1208:17;;:8;:17;;;;1200:26;;;;;;;;1256:1;1244:8;:13;;;;1236:22;;;;;;;;1293:8;1274:28;;1286:5;;;;;;;;;;;1274:28;;;;;;;;;;;;1321:8;1313:5;;:16;;;;;;;;;;;;;;;;;;1347:4;1340:11;;1115:244;;;:::o;1424:81::-;1465:7;1492:5;;;;;;;;;;;1485:12;;1424:81;:::o;1504:88:0:-;1554:4;1578:6;;1571:13;;1504:88;:::o;1076:268::-;1154:4;262:5:4;;;;;;;;;;;248:19;;:10;:19;;;240:28;;;;;;;;1193:1:0;1179:11;:15;1171:24;;;;;;;;1228:6;;1213:11;:21;;1205:30;;;;;;;;1255:11;1246:6;:20;;;;1296:10;1282:33;;;1308:6;;1282:33;;;;;;;;;;;;;;;;;;1332:4;1325:11;;1076:268;;;:::o",
+  "source": "pragma solidity ^0.4.24;\n\nimport \"./Owned.sol\";\nimport \"./interfaces/DepositHolderI.sol\";\n\ncontract DepositHolder is Owned, DepositHolderI {\n    uint amount;    \n\n    constructor(uint _amount) Owned() public {\n\n        require(_amount > 0);\n        amount = _amount;\n\n    }\n\n    /**\n     * Event emitted when the deposit value has been set.\n     * @param sender The account that ran the action.\n     * @param depositWeis The value of the deposit measured in weis.\n     */\n    event LogDepositSet(address indexed sender, uint depositWeis);\n\n    /**\n     * Called by the owner of the DepositHolder.\n     *     It should roll back if the caller is not the owner of the contract.\n     *     It should roll back if the argument passed is 0.\n     *     It should roll back if the argument is no different from the current deposit.\n     * @param depositWeis The value of the deposit being set, measured in weis.\n     * @return Whether the action was successful.\n     * Emits LogDepositSet with:\n     *     The sender of the action.\n     *     The new value that was set.\n     */\n    function setDeposit(uint depositWeis)\n        onlyWhenOwner() public returns (bool) {\n\n        require(depositWeis > 0);\n        require(depositWeis != amount);\n\n        amount = depositWeis;\n\n        emit LogDepositSet(msg.sender, amount);\n        return true;\n\n    }\n\n    /**\n     * @return The base price, then to be multiplied by the multiplier, a given vehicle\n     * needs to deposit to enter the road system.\n     */\n    function getDeposit()\n        public view returns(uint) {\n\n        return amount;\n\n    }\n\n}\n",
+  "sourcePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/DepositHolder.sol",
+  "ast": {
+    "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/DepositHolder.sol",
+    "exportedSymbols": {
+      "DepositHolder": [
+        76
+      ]
+    },
+    "id": 77,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/Owned.sol",
+        "file": "./Owned.sol",
+        "id": 2,
+        "nodeType": "ImportDirective",
+        "scope": 77,
+        "sourceUnit": 596,
+        "src": "26:21:0",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/DepositHolderI.sol",
+        "file": "./interfaces/DepositHolderI.sol",
+        "id": 3,
+        "nodeType": "ImportDirective",
+        "scope": 77,
+        "sourceUnit": 2083,
+        "src": "48:41:0",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4,
+              "name": "Owned",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 595,
+              "src": "117:5:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Owned_$595",
+                "typeString": "contract Owned"
+              }
+            },
+            "id": 5,
+            "nodeType": "InheritanceSpecifier",
+            "src": "117:5:0"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6,
+              "name": "DepositHolderI",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2082,
+              "src": "124:14:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_DepositHolderI_$2082",
+                "typeString": "contract DepositHolderI"
+              }
+            },
+            "id": 7,
+            "nodeType": "InheritanceSpecifier",
+            "src": "124:14:0"
+          }
+        ],
+        "contractDependencies": [
+          595,
+          2082,
+          2130
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 76,
+        "linearizedBaseContracts": [
+          76,
+          2082,
+          595,
+          2130
+        ],
+        "name": "DepositHolder",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 9,
+            "name": "amount",
+            "nodeType": "VariableDeclaration",
+            "scope": 76,
+            "src": "145:11:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 8,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "145:4:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 26,
+              "nodeType": "Block",
+              "src": "208:65:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 19,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 17,
+                          "name": "_amount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11,
+                          "src": "227:7:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": ">",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "hexValue": "30",
+                          "id": 18,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "237:1:0",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "src": "227:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 16,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        2491,
+                        2492
+                      ],
+                      "referencedDeclaration": 2491,
+                      "src": "219:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 20,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "219:20:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 21,
+                  "nodeType": "ExpressionStatement",
+                  "src": "219:20:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 24,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 22,
+                      "name": "amount",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9,
+                      "src": "249:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 23,
+                      "name": "_amount",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11,
+                      "src": "258:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "249:16:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 25,
+                  "nodeType": "ExpressionStatement",
+                  "src": "249:16:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 27,
+            "implemented": true,
+            "isConstructor": true,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": [],
+                "id": 14,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 13,
+                  "name": "Owned",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 595,
+                  "src": "193:5:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_Owned_$595_$",
+                    "typeString": "type(contract Owned)"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "193:7:0"
+              }
+            ],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 27,
+                  "src": "179:12:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "179:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "178:14:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 15,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "208:0:0"
+            },
+            "scope": 76,
+            "src": "167:106:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": "Event emitted when the deposit value has been set.\n@param sender The account that ran the action.\n@param depositWeis The value of the deposit measured in weis.",
+            "id": 33,
+            "name": "LogDepositSet",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 32,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 29,
+                  "indexed": true,
+                  "name": "sender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 33,
+                  "src": "496:22:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 28,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "496:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 31,
+                  "indexed": false,
+                  "name": "depositWeis",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 33,
+                  "src": "520:16:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 30,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "520:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "495:42:0"
+            },
+            "src": "476:62:0"
+          },
+          {
+            "body": {
+              "id": 66,
+              "nodeType": "Block",
+              "src": "1160:184:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 45,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 43,
+                          "name": "depositWeis",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 35,
+                          "src": "1179:11:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": ">",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "hexValue": "30",
+                          "id": 44,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1193:1:0",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "src": "1179:15:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 42,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        2491,
+                        2492
+                      ],
+                      "referencedDeclaration": 2491,
+                      "src": "1171:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 46,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1171:24:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 47,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1171:24:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 51,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 49,
+                          "name": "depositWeis",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 35,
+                          "src": "1213:11:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 50,
+                          "name": "amount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 9,
+                          "src": "1228:6:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "1213:21:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 48,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        2491,
+                        2492
+                      ],
+                      "referencedDeclaration": 2491,
+                      "src": "1205:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 52,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1205:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 53,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1205:30:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 56,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 54,
+                      "name": "amount",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9,
+                      "src": "1246:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 55,
+                      "name": "depositWeis",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 35,
+                      "src": "1255:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1246:20:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 57,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1246:20:0"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 59,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2488,
+                          "src": "1296:3:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 60,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "1296:10:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 61,
+                        "name": "amount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9,
+                        "src": "1308:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 58,
+                      "name": "LogDepositSet",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        33
+                      ],
+                      "referencedDeclaration": 33,
+                      "src": "1282:13:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
+                        "typeString": "function (address,uint256)"
+                      }
+                    },
+                    "id": 62,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1282:33:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 63,
+                  "nodeType": "EmitStatement",
+                  "src": "1277:38:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 64,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "1332:4:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 41,
+                  "id": 65,
+                  "nodeType": "Return",
+                  "src": "1325:11:0"
+                }
+              ]
+            },
+            "documentation": "Called by the owner of the DepositHolder.\n    It should roll back if the caller is not the owner of the contract.\n    It should roll back if the argument passed is 0.\n    It should roll back if the argument is no different from the current deposit.\n@param depositWeis The value of the deposit being set, measured in weis.\n@return Whether the action was successful.\nEmits LogDepositSet with:\n    The sender of the action.\n    The new value that was set.",
+            "id": 67,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": [],
+                "id": 38,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 37,
+                  "name": "onlyWhenOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 538,
+                  "src": "1122:13:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1122:15:0"
+              }
+            ],
+            "name": "setDeposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 36,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 35,
+                  "name": "depositWeis",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 67,
+                  "src": "1096:16:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 34,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1096:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1095:18:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 41,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 40,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 67,
+                  "src": "1154:4:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 39,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1154:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1153:6:0"
+            },
+            "scope": 76,
+            "src": "1076:268:0",
+            "stateMutability": "nonpayable",
+            "superFunction": 2076,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 74,
+              "nodeType": "Block",
+              "src": "1560:32:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 72,
+                    "name": "amount",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 9,
+                    "src": "1578:6:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 71,
+                  "id": 73,
+                  "nodeType": "Return",
+                  "src": "1571:13:0"
+                }
+              ]
+            },
+            "documentation": "@return The base price, then to be multiplied by the multiplier, a given vehicle\nneeds to deposit to enter the road system.",
+            "id": 75,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getDeposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 68,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1523:2:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 71,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 70,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 75,
+                  "src": "1554:4:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1554:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1553:6:0"
+            },
+            "scope": 76,
+            "src": "1504:88:0",
+            "stateMutability": "view",
+            "superFunction": 2081,
+            "visibility": "public"
+          }
+        ],
+        "scope": 77,
+        "src": "91:1504:0"
+      }
+    ],
+    "src": "0:1596:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/DepositHolder.sol",
+    "exportedSymbols": {
+      "DepositHolder": [
+        76
+      ]
+    },
+    "id": 77,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/Owned.sol",
+        "file": "./Owned.sol",
+        "id": 2,
+        "nodeType": "ImportDirective",
+        "scope": 77,
+        "sourceUnit": 596,
+        "src": "26:21:0",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/DepositHolderI.sol",
+        "file": "./interfaces/DepositHolderI.sol",
+        "id": 3,
+        "nodeType": "ImportDirective",
+        "scope": 77,
+        "sourceUnit": 2083,
+        "src": "48:41:0",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4,
+              "name": "Owned",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 595,
+              "src": "117:5:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Owned_$595",
+                "typeString": "contract Owned"
+              }
+            },
+            "id": 5,
+            "nodeType": "InheritanceSpecifier",
+            "src": "117:5:0"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 6,
+              "name": "DepositHolderI",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2082,
+              "src": "124:14:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_DepositHolderI_$2082",
+                "typeString": "contract DepositHolderI"
+              }
+            },
+            "id": 7,
+            "nodeType": "InheritanceSpecifier",
+            "src": "124:14:0"
+          }
+        ],
+        "contractDependencies": [
+          595,
+          2082,
+          2130
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 76,
+        "linearizedBaseContracts": [
+          76,
+          2082,
+          595,
+          2130
+        ],
+        "name": "DepositHolder",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 9,
+            "name": "amount",
+            "nodeType": "VariableDeclaration",
+            "scope": 76,
+            "src": "145:11:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 8,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "145:4:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 26,
+              "nodeType": "Block",
+              "src": "208:65:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 19,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 17,
+                          "name": "_amount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11,
+                          "src": "227:7:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": ">",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "hexValue": "30",
+                          "id": 18,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "237:1:0",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "src": "227:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 16,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        2491,
+                        2492
+                      ],
+                      "referencedDeclaration": 2491,
+                      "src": "219:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 20,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "219:20:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 21,
+                  "nodeType": "ExpressionStatement",
+                  "src": "219:20:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 24,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 22,
+                      "name": "amount",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9,
+                      "src": "249:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 23,
+                      "name": "_amount",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11,
+                      "src": "258:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "249:16:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 25,
+                  "nodeType": "ExpressionStatement",
+                  "src": "249:16:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 27,
+            "implemented": true,
+            "isConstructor": true,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": [],
+                "id": 14,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 13,
+                  "name": "Owned",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 595,
+                  "src": "193:5:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_Owned_$595_$",
+                    "typeString": "type(contract Owned)"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "193:7:0"
+              }
+            ],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 27,
+                  "src": "179:12:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "179:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "178:14:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 15,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "208:0:0"
+            },
+            "scope": 76,
+            "src": "167:106:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": "Event emitted when the deposit value has been set.\n@param sender The account that ran the action.\n@param depositWeis The value of the deposit measured in weis.",
+            "id": 33,
+            "name": "LogDepositSet",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 32,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 29,
+                  "indexed": true,
+                  "name": "sender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 33,
+                  "src": "496:22:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 28,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "496:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 31,
+                  "indexed": false,
+                  "name": "depositWeis",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 33,
+                  "src": "520:16:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 30,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "520:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "495:42:0"
+            },
+            "src": "476:62:0"
+          },
+          {
+            "body": {
+              "id": 66,
+              "nodeType": "Block",
+              "src": "1160:184:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 45,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 43,
+                          "name": "depositWeis",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 35,
+                          "src": "1179:11:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": ">",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "hexValue": "30",
+                          "id": 44,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1193:1:0",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "src": "1179:15:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 42,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        2491,
+                        2492
+                      ],
+                      "referencedDeclaration": 2491,
+                      "src": "1171:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 46,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1171:24:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 47,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1171:24:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 51,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 49,
+                          "name": "depositWeis",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 35,
+                          "src": "1213:11:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 50,
+                          "name": "amount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 9,
+                          "src": "1228:6:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "1213:21:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 48,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        2491,
+                        2492
+                      ],
+                      "referencedDeclaration": 2491,
+                      "src": "1205:7:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 52,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1205:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 53,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1205:30:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 56,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 54,
+                      "name": "amount",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9,
+                      "src": "1246:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 55,
+                      "name": "depositWeis",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 35,
+                      "src": "1255:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1246:20:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 57,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1246:20:0"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 59,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2488,
+                          "src": "1296:3:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 60,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "1296:10:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 61,
+                        "name": "amount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9,
+                        "src": "1308:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 58,
+                      "name": "LogDepositSet",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        33
+                      ],
+                      "referencedDeclaration": 33,
+                      "src": "1282:13:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_address_$_t_uint256_$returns$__$",
+                        "typeString": "function (address,uint256)"
+                      }
+                    },
+                    "id": 62,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1282:33:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 63,
+                  "nodeType": "EmitStatement",
+                  "src": "1277:38:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 64,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "1332:4:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 41,
+                  "id": 65,
+                  "nodeType": "Return",
+                  "src": "1325:11:0"
+                }
+              ]
+            },
+            "documentation": "Called by the owner of the DepositHolder.\n    It should roll back if the caller is not the owner of the contract.\n    It should roll back if the argument passed is 0.\n    It should roll back if the argument is no different from the current deposit.\n@param depositWeis The value of the deposit being set, measured in weis.\n@return Whether the action was successful.\nEmits LogDepositSet with:\n    The sender of the action.\n    The new value that was set.",
+            "id": 67,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": [],
+                "id": 38,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 37,
+                  "name": "onlyWhenOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 538,
+                  "src": "1122:13:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1122:15:0"
+              }
+            ],
+            "name": "setDeposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 36,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 35,
+                  "name": "depositWeis",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 67,
+                  "src": "1096:16:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 34,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1096:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1095:18:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 41,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 40,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 67,
+                  "src": "1154:4:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 39,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1154:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1153:6:0"
+            },
+            "scope": 76,
+            "src": "1076:268:0",
+            "stateMutability": "nonpayable",
+            "superFunction": 2076,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 74,
+              "nodeType": "Block",
+              "src": "1560:32:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 72,
+                    "name": "amount",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 9,
+                    "src": "1578:6:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 71,
+                  "id": 73,
+                  "nodeType": "Return",
+                  "src": "1571:13:0"
+                }
+              ]
+            },
+            "documentation": "@return The base price, then to be multiplied by the multiplier, a given vehicle\nneeds to deposit to enter the road system.",
+            "id": 75,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getDeposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 68,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1523:2:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 71,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 70,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 75,
+                  "src": "1554:4:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 69,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1554:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1553:6:0"
+            },
+            "scope": 76,
+            "src": "1504:88:0",
+            "stateMutability": "view",
+            "superFunction": 2081,
+            "visibility": "public"
+          }
+        ],
+        "scope": 77,
+        "src": "91:1504:0"
+      }
+    ],
+    "src": "0:1596:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-10-16T17:02:42.503Z"
+}

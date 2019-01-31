@@ -1,0 +1,602 @@
+{
+  "contractName": "RegulatedI",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousRegulator",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newRegulator",
+          "type": "address"
+        }
+      ],
+      "name": "LogRegulatorSet",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newRegulator",
+          "type": "address"
+        }
+      ],
+      "name": "setRegulator",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getRegulator",
+      "outputs": [
+        {
+          "name": "regulator",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.24;\n\nimport { RegulatorI } from \"./RegulatorI.sol\";\n\ncontract RegulatedI {\n    /**\n     * Event emitted when a new regulator has been set.\n     * @param previousRegulator The previous regulator of the contract.\n     * @param newRegulator The new, and current, regulator of the contract.\n     */\n    event LogRegulatorSet(\n        address indexed previousRegulator,\n        address indexed newRegulator);\n\n    /**\n     * Sets the new regulator for this contract.\n     *     It should roll back if any address other than the current regulator of this contract\n     *       calls this function.\n     *     It should roll back if the new regulator address is 0.\n     *     It should roll back if the new regulator is the same as the current regulator.\n     * @param newRegulator The new desired regulator of the contract. It is assumed, that this is the\n     *     address of a `RegulatorI` contract. It is not necessary to prove it is a `RegulatorI`.\n     * @return Whether the action was successful.\n     * Emits LogRegulatorSet with:\n     *     The sender of the action.\n     *     The new regulator.\n     */\n    function setRegulator(address newRegulator)\n        public\n        returns(bool success);\n\n    /**\n     * @return The current regulator.\n     */\n    function getRegulator()\n        view\n        public\n        returns(RegulatorI regulator);\n\n    /*\n     * You need to create:\n     *\n     * - a contract named `Regulated` that:\n     *     - is a `RegulatedI`.\n     *     - has a constructor that takes one `address` parameter, the initial regulator, which cannot be 0\n     *       and which is assumed to be a `RegulatorI`. It is not necessary to prove it is a `RegulatorI`.\n     */\n}",
+  "sourcePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/RegulatedI.sol",
+  "ast": {
+    "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/RegulatedI.sol",
+    "exportedSymbols": {
+      "RegulatedI": [
+        2174
+      ]
+    },
+    "id": 2175,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2153,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:16"
+      },
+      {
+        "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/RegulatorI.sol",
+        "file": "./RegulatorI.sol",
+        "id": 2155,
+        "nodeType": "ImportDirective",
+        "scope": 2175,
+        "sourceUnit": 2243,
+        "src": "26:46:16",
+        "symbolAliases": [
+          {
+            "foreign": 2154,
+            "local": null
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 2174,
+        "linearizedBaseContracts": [
+          2174
+        ],
+        "name": "RegulatedI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": "Event emitted when a new regulator has been set.\n@param previousRegulator The previous regulator of the contract.\n@param newRegulator The new, and current, regulator of the contract.",
+            "id": 2161,
+            "name": "LogRegulatorSet",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 2160,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2157,
+                  "indexed": true,
+                  "name": "previousRegulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2161,
+                  "src": "351:33:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2156,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "351:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2159,
+                  "indexed": true,
+                  "name": "newRegulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2161,
+                  "src": "394:28:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2158,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "394:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "341:82:16"
+            },
+            "src": "320:104:16"
+          },
+          {
+            "body": null,
+            "documentation": "Sets the new regulator for this contract.\n    It should roll back if any address other than the current regulator of this contract\n      calls this function.\n    It should roll back if the new regulator address is 0.\n    It should roll back if the new regulator is the same as the current regulator.\n@param newRegulator The new desired regulator of the contract. It is assumed, that this is the\n    address of a `RegulatorI` contract. It is not necessary to prove it is a `RegulatorI`.\n@return Whether the action was successful.\nEmits LogRegulatorSet with:\n    The sender of the action.\n    The new regulator.",
+            "id": 2168,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "setRegulator",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2164,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2163,
+                  "name": "newRegulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2168,
+                  "src": "1155:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2162,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1155:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1154:22:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2167,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2166,
+                  "name": "success",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2168,
+                  "src": "1208:12:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2165,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1208:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1207:14:16"
+            },
+            "scope": 2174,
+            "src": "1133:89:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@return The current regulator.",
+            "id": 2173,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getRegulator",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2169,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1303:2:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2172,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2171,
+                  "name": "regulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2173,
+                  "src": "1350:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_RegulatorI_$2242",
+                    "typeString": "contract RegulatorI"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2170,
+                    "name": "RegulatorI",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2242,
+                    "src": "1350:10:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_RegulatorI_$2242",
+                      "typeString": "contract RegulatorI"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1349:22:16"
+            },
+            "scope": 2174,
+            "src": "1282:90:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2175,
+        "src": "74:1641:16"
+      }
+    ],
+    "src": "0:1715:16"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/RegulatedI.sol",
+    "exportedSymbols": {
+      "RegulatedI": [
+        2174
+      ]
+    },
+    "id": 2175,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2153,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:16"
+      },
+      {
+        "absolutePath": "/home/vagrant/DAPPS/ivo_willemsen-code/contracts/interfaces/RegulatorI.sol",
+        "file": "./RegulatorI.sol",
+        "id": 2155,
+        "nodeType": "ImportDirective",
+        "scope": 2175,
+        "sourceUnit": 2243,
+        "src": "26:46:16",
+        "symbolAliases": [
+          {
+            "foreign": 2154,
+            "local": null
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 2174,
+        "linearizedBaseContracts": [
+          2174
+        ],
+        "name": "RegulatedI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": "Event emitted when a new regulator has been set.\n@param previousRegulator The previous regulator of the contract.\n@param newRegulator The new, and current, regulator of the contract.",
+            "id": 2161,
+            "name": "LogRegulatorSet",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 2160,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2157,
+                  "indexed": true,
+                  "name": "previousRegulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2161,
+                  "src": "351:33:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2156,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "351:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2159,
+                  "indexed": true,
+                  "name": "newRegulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2161,
+                  "src": "394:28:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2158,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "394:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "341:82:16"
+            },
+            "src": "320:104:16"
+          },
+          {
+            "body": null,
+            "documentation": "Sets the new regulator for this contract.\n    It should roll back if any address other than the current regulator of this contract\n      calls this function.\n    It should roll back if the new regulator address is 0.\n    It should roll back if the new regulator is the same as the current regulator.\n@param newRegulator The new desired regulator of the contract. It is assumed, that this is the\n    address of a `RegulatorI` contract. It is not necessary to prove it is a `RegulatorI`.\n@return Whether the action was successful.\nEmits LogRegulatorSet with:\n    The sender of the action.\n    The new regulator.",
+            "id": 2168,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "setRegulator",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2164,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2163,
+                  "name": "newRegulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2168,
+                  "src": "1155:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2162,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1155:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1154:22:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2167,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2166,
+                  "name": "success",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2168,
+                  "src": "1208:12:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2165,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1208:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1207:14:16"
+            },
+            "scope": 2174,
+            "src": "1133:89:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": "@return The current regulator.",
+            "id": 2173,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getRegulator",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2169,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1303:2:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2172,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2171,
+                  "name": "regulator",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2173,
+                  "src": "1350:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_RegulatorI_$2242",
+                    "typeString": "contract RegulatorI"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2170,
+                    "name": "RegulatorI",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2242,
+                    "src": "1350:10:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_RegulatorI_$2242",
+                      "typeString": "contract RegulatorI"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1349:22:16"
+            },
+            "scope": 2174,
+            "src": "1282:90:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2175,
+        "src": "74:1641:16"
+      }
+    ],
+    "src": "0:1715:16"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-10-16T17:02:42.425Z"
+}
