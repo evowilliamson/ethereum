@@ -3,4 +3,4 @@ node_modules
 yarn-error.log
 testsLog.txt
 webapp/src/contracts
-.vscode/
+build/
