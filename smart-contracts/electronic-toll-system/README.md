@@ -26,7 +26,7 @@ Before getting into the implementation details, let's look at the following doma
 
 Let's consider the following UML Domain Model.
 
-![](DomainModel.png)
+![](resources/DomainModel.png)
 
 A regulator oversees a number of road operators. A driver who wants to use the system, needs to register its vehicle with the regulator, communicating  the registration number, pollution and weight factor. The weight of a vehicle is important as it determines the extent in which the road will degrade over time: Heavy lorries have a detrimental effect on the state of the surface of the slowest lane of a highway and a light motorcycle doesn't really hurt too much. SUVs with big engines should pay more as they are heavy polluters. Conceptually, there is a driver, but the entity *driver* doesn't find its representation later in the implementation model as we will find out later, but it's ok to model it as an entity for clarity's sake. A cruising vehicle covers one or more sections on the highway, where each section is identified by a beginning (from) and ending toll booth (to) and thus the covered distance can be calculated. Furthermore, each road operator can tweak their cost/benefit model by adjusting the cost per distance unit. 
 
@@ -41,7 +41,7 @@ Road operator owners can withdraw the profit that is related with a single trip 
 When a vehicle decides to go from a section that is operated by one road operator to a section that is covered by another road operator, the vehicle must first exit the system that is operated by the former, then enter the toll system that is operated by the latter. 
 
 
-![](operators-booths.png)
+![](resources/operators-booths.png)
 
 > How to identify the vehicle ?
 > 
@@ -56,7 +56,7 @@ When a vehicle is registered, two pieces of information are stored: the address 
 We will now convert entities in the domain model to either smart contracts or externally owned accounts. Although smart contracts in Solidity resemble classes and the most obvious way of modeling would be a Class Diagram, a smart contract is also a unit of deployment, so the UML Component Model seems to be a good fit to model these smart contracts and EAOs. Let's take a look at the following diagram.
  
 
-![](ComponentModel.png)
+![](resources/ComponentModel.png)
 
 * `Regulator`. The `Regulator` smart contract will have the following functions
     * `createRoadOperator`: Creates a new instance of a `RoadOperator` smart contract and will transfer ownership to the road operator owner EAO
@@ -74,7 +74,7 @@ We will now convert entities in the domain model to either smart contracts or ex
 
 In the UML component model, some comments were added that indicate a sequence of activities which form a use-case scenario. This use-case scenario will be formalized in this section and a UML Sequence diagram will be used to show how smart contract instances and/or EAOs send messages to other smart contract instances. 
 
-![](SequenceDiagram.png)
+![](resources/SequenceDiagram.png)
 
 It can be deduced from the sequence diagram that balances are first placed into custody when entering the toll system. After a vehicle has been registered as having paid, the toll booth software can query the `Toll` smart contract to check whether physical access to the toll system should be granted.   
 
@@ -108,7 +108,7 @@ This repository contains the smart contracts, web application and test cases tha
 #### Architecture
 The following component diagram depicts the architecture of the system
 
-![alt text](ComponentModel-ElectronicTollSystem.png)
+![alt text](resources/ComponentModel-ElectronicTollSystem.png)
 
 
 An off-chain data store (PouchDB) is used to:
