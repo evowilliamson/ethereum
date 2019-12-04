@@ -1,6 +1,8 @@
-# eEthereum
-Ethereum -related information, smart contracts made during courses and POCs.
-Most notably, I developed a POC that entails creation of an Ethereum smart contract, matching Mocha testcases, a 
+# Ethereum
+Ethereum-related information, smart contracts made during courses and POCs.
+Most notably, I developed a POC that entails creation of an Ethereum smart contract, matching Mocha testcases and ReactJS front end, that forms an application that shows how an electronic toll system can be be implemented with a Blockchain approach
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQyMjQwODAwNV19
+eyJoaXN0b3J5IjpbMTQzOTkyNjc0MF19
 -->
